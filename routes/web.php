@@ -5,7 +5,8 @@ use App\Http\Controllers\HakAksesController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ListAkunController;
-use App\Http\Controllers\JenisPembayaranController;
+use App\Http\Controllers\JenisSurveyController;
+use App\Http\Controllers\KategoriSurveyController;
 use App\Http\Controllers\TransaksiController;
 use App\Http\Controllers\TransaksiKasMasukController;
 use App\Http\Controllers\KasbonController;
@@ -13,7 +14,9 @@ use App\Http\Controllers\PembayaranController;
 use App\Http\Controllers\LaporanKasMasukController;
 use App\Http\Controllers\LaporanJenisPembayaranController;
 use App\Http\Controllers\TestPesanController;
+use App\Http\Controllers\PertanyaanController;
 use App\Http\Controllers\SaldoController;
+use App\Http\Controllers\SurveyEksekutifController;
 use App\Imports\PesanImport;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
@@ -87,12 +90,29 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/list_akun/store', 'store');
         Route::post('/list_akun/update', 'update');
     });
-    Route::controller(JenisPembayaranController::class)->middleware('cek_login:jenis_pembayaran.index')->group(function () {
-        Route::get('/jenis_pembayaran', 'index')->name('jenis_pembayaran.index');
-        Route::get('/jenis_pembayaran/edit/{id}', 'edit');
-        Route::get('/jenis_pembayaran/delete/{id}', 'delete');
-        Route::post('/jenis_pembayaran/store', 'store');
-        Route::post('/jenis_pembayaran/update', 'update');
+    Route::controller(JenisSurveyController::class)->middleware('cek_login:jenis_survey.index')->group(function () {
+        Route::get('/jenis_survey', 'index')->name('jenis_survey.index');
+        Route::get('/jenis_survey/edit/{id}', 'edit');
+        Route::get('/jenis_survey/delete/{id}', 'delete');
+        Route::post('/jenis_survey/store', 'store');
+        Route::post('/jenis_survey/update', 'update');
+    });
+    Route::controller(KategoriSurveyController::class)->middleware('cek_login:kategori_survey.index')->group(function () {
+        Route::get('/kategori_survey', 'index')->name('kategori_survey.index');
+        Route::get('/kategori_survey/edit/{id}', 'edit');
+        Route::get('/kategori_survey/delete/{id}', 'delete');
+        Route::post('/kategori_survey/store', 'store');
+        Route::post('/kategori_survey/update', 'update');
+    });
+    Route::controller(PertanyaanController::class)->middleware('cek_login:pertanyaan.index')->group(function () {
+        Route::get('/pertanyaan', 'index')->name('pertanyaan.index');
+        Route::get('/pertanyaan/urutan', 'urutan');
+        Route::get('/pertanyaan/edit/{id}', 'edit');
+        Route::get('/pertanyaan/delete/{id}', 'delete');
+        Route::post('/pertanyaan/store', 'store');
+        Route::post('/pertanyaan/urutan', 'urutan_detail');
+        Route::post('/pertanyaan/urutan_detail', 'ubah_urutan');
+        Route::post('/pertanyaan/update', 'update');
     });
     Route::controller(TransaksiController::class)->middleware('cek_login:transaksi.index')->group(function () {
         Route::get('/transaksi', 'index')->name('transaksi.index');
@@ -157,4 +177,18 @@ Route::group(['middleware' => ['auth']], function () {
     
     // Route::get('/kirim', [\App\Http\Controllers\WaBlastController::class, 'kirim'])->name('home');
 
+});
+
+
+Route::controller(SurveyEksekutifController::class)->group(function () {
+    // Route::get('/', 'form')->name('tulip.form');
+    // Route::get('/{jenis}/{id}', 'kuis')->name('kuis');
+    // Route::get('/{jenis}/{id}', 'kuis')->name('kuis');
+    // Route::get('/ranap/{id}', 'ranap')->name('tulip.ranap');
+    Route::get('/rajal/{id}', 'rajal')->name('tulip.action');
+    // Route::post('/rajal/{id}', 'rajal')->name('tulip.action');
+});
+Route::controller(ReportController::class)->group(function () {
+    Route::get('/report/tulip', 'tulip')->name('report.tulip.form');
+    Route::post('/report/tulip', 'tulipResult')->name('report.tulip.result');
 });
