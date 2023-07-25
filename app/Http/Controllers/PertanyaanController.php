@@ -16,7 +16,7 @@ class PertanyaanController extends Controller
 {
     public function index()
     {
-        $data = DB::table('pertanyaan')->whereNull('pertanyaan.deleted_at')->get();
+        $data = DB::table('pertanyaan')->leftJoin('jenis_survey', 'pertanyaan.jenis_survey_id', '=', 'jenis_survey.jenis_survey_id')->leftJoin('kategori_survey', 'pertanyaan.kategori_survey_id', '=', 'kategori_survey.kategori_survey_id')->whereNull('pertanyaan.deleted_at')->get();
         $jenis_survey = DB::table('jenis_survey')->whereNull('jenis_survey.deleted_at')->get();
         $kategori_survey = DB::table('kategori_survey')->whereNull('kategori_survey.deleted_at')->get();
         return view('pertanyaan.index', compact('data','jenis_survey','kategori_survey'));
@@ -79,6 +79,7 @@ class PertanyaanController extends Controller
             'created_by' => Auth::user()->id,
             'created_at' => now(),
             'pertanyaan' => $request->pertanyaan,
+            'keterangan' => $request->keterangan,
             'jenis_pertanyaan' => $request->jenis_pertanyaan,
             'jenis_survey_id' => $request->jenis_survey_id,
             'kategori_survey_id' => $request->kategori_survey_id,
@@ -92,39 +93,29 @@ class PertanyaanController extends Controller
     {
         // $id = Crypt::decrypt($id);
         // dd($data);
+        $jenis_survey = DB::table('jenis_survey')->whereNull('jenis_survey.deleted_at')->get();
+        $kategori_survey = DB::table('kategori_survey')->whereNull('kategori_survey.deleted_at')->get();
         $text = "Data tidak ditemukan";
         if($data = DB::select("SELECT * FROM pertanyaan WHERE pertanyaan_id='$id'")){
-
-            $text = '<div class="mb-3 row">'.
-                    '<label for="staticEmail" class="col-sm-2 col-form-label">Nama kompetensi</label>'.
-                    '<div class="col-sm-10">'.
-                    '<input type="text" class="form-control" id="pertanyaan" name="pertanyaan" value="'.$data[0]->pertanyaan.'" required>'.
-                    '</div>'.
-                '</div>'.
-                // '<div class="mb-3 row">'.
-                //     '<label for="staticEmail" class="col-sm-2 col-form-label">Akronim</label>'.
-                //     '<div class="col-sm-10">'.
-                //     '<input type="text" class="form-control" id="keterangan_pertanyaan" name="keterangan_pertanyaan" value="'.$data[0]->keterangan_pertanyaan.'" required>'.
-                //     '</div>'.
-                // '</div>'.
-                '<input type="hidden" class="form-control" id="pertanyaan_id" name="pertanyaan_id" value="'.Crypt::encrypt($data[0]->pertanyaan_id) .'" required>';
+            return view('modal_content.edit_pertanyaan', compact('data','jenis_survey','kategori_survey'));
         }
         return $text;
         // return view('pertanyaan.edit');
     }
 
     public function update(Request $request){
+        // dd($request);
         $request->validate([
             'pertanyaan' => ['required'],
         ]);
-        $akronim = Str::slug($request->pertanyaan,'-');
         $data = [
             'updated_by' => Auth::user()->id,
             'updated_at' => now(),
             'pertanyaan' => $request->pertanyaan,
-            'jenis_pertanyaan' => $akronim,
-            'jenis_survey_id' => $akronim,
-            'kategori_survey_id' => $akronim,
+            'keterangan' => $request->keterangan,
+            'jenis_pertanyaan' => $request->jenis_pertanyaan,
+            'jenis_survey_id' => $request->jenis_survey_id,
+            'kategori_survey_id' => $request->kategori_survey_id,
         ];
         $pertanyaan_id = Crypt::decrypt($request->pertanyaan_id);
         $status_kompetensi = "Aktif";

@@ -21,6 +21,8 @@
     <link rel="stylesheet" href="{{ asset('assets/vendor/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
     {{-- <link rel="stylesheet" href="{{ asset('assets/vendor/datatables-responsive/css/responsive.bootstrap4.min.css') }}"> --}}
     <link rel="stylesheet" href="{{ asset('assets/vendor/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 </head>
 
 <body class="  ">
@@ -53,7 +55,7 @@
                     <div class="iq-navbar-logo d-flex align-items-center justify-content-between">
                         <i class="ri-menu-line wrapper-menu"></i>
                         <a href="backend/index.html" class="header-logo">
-                            <h4 class="logo-title text-uppercase">Webkit</h4>
+                            <h4 class="logo-title text-uppercase">Survey</h4>
 
                         </a>
                     </div>
@@ -407,7 +409,11 @@
 
     <script src="{{ asset('assets/vendor/moment.min.js') }}"></script>
 
-
+    <script>
+        $(document).ready(function() {
+            $('.select2').select2();
+        });
+    </script>
     @stack('scripts')
 </body>
 

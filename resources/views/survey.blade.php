@@ -1,394 +1,201 @@
-<!DOCTYPE html>
-<!-- saved from url=(0060)https://templates.seekviral.com/qzain/quiz/Quiz12/index.html -->
-<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz</title>
+@extends('layouts.tamplate')
 
-    <!-- fonts -->
-    <link rel="stylesheet" href="{{ asset('quiz_file') }}/font.css">
-
-    <!-- fontawesome 5 -->
-    <link rel="stylesheet" href="{{ asset('quiz_file') }}/all.min.css">
-
-    <!-- bootstrap 5 -->
-    <link rel="stylesheet" href="{{ asset('quiz_file') }}/bootstrap.min.css">
-
-    <!-- Custom Css Files -->
-    <link rel="stylesheet" href="{{ asset('quiz_file') }}/style.css">
-    <link rel="stylesheet" href="{{ asset('quiz_file') }}/responsive.css">
-    <link rel="stylesheet" href="{{ asset('quiz_file') }}/animation.css">
-
-        <!--Thankyou CSS-->
-        <link rel="stylesheet" href="{{ asset('quiz_file') }}/thankyou.css">
-<style type="text/css" id="operaUserStyle"></style></head>
-<body>
-
-    <main class="overflow-hidden">
-        <div class="container">
-            <div class="row h-100">
-                <div class="col-md-12">
-                    <div class="step-bar">
-                        <div class="fill"></div>
-                    </div>
-                    <form method="post" class="show-section">
-                        <div class="move">
-                            <div class="avatar">
-                                <img src="{{ asset('quiz_file') }}/girl.png" alt="avatar">
-                            </div>
-                            <h3 class="step-count">
-                                Question <span id="activeStep">1</span>/5
-                            </h3>
+@section('content')
+    <div class="container">
+        <div class="card">
+            <div class="row mb-3">
+                <div class="text-center">
+                    <img width="25%" src="{{ asset('assets/img/rsup.png') }}">
+                    <img width="20%" src="{{ asset('assets/img/kgm.png') }}">
+                    <img width="35%" src="{{ asset('assets/img/ihc.png') }}">
+                </div>
+            </div>
+            <h5 class="text-center mb-3">Survey Kepuasan Pelanggan <br> RS UMUM & PEKERJA</h5>
+        </div>
+        <div class="tab-status row text-center" style="display: none">
+            @php
+                $no = 1;
+            @endphp
+            @foreach($list_pertanyaan as $item)
+            <span class="col-1 tab @if($no == 1) active @endif">{{ $no++ }}</span>
+            @endforeach
+        </div>
+        <form action="{{ url('action/'.$jenis_survey_id) }}" method="post">
+            @csrf
+            <input type="hidden" name="id" value="{{ $id }}">
+            <div role="tab-list">
+                @php
+                    $no = 1;
+                @endphp
+                @foreach($list_pertanyaan as $item)
+                    <div role="tabpanel" id="{{ $no }}" class="tabpanel @if($no !== 1) hidden @endif">
+                        <input type="hidden" value="{{ $item->pertanyaan_id }}" name="pertanyaan_id[]">
+                        <h5 class="mt-3 mb-3">{{ $no }}. &nbsp; {{ $item->pertanyaan }}</h5>
+                        @if($item->jenis_pertanyaan == 1)
+                        <div class="form-group">
+                            <input type="text" class="form-control" name="jawaban{{ $no }}[]">
+                            <em>{{ $item->keterangan }}</em>
                         </div>
-
-                        <!-- step 1 -->
-                        <section class="steps" style="">
-                            <h1 class="quiz-question">
-                                Never have time for yourself Because you  Need to take Care of your Family?
-                            </h1>
-                            
-                            <!-- form -->
-                            <fieldset id="step1">
-                                <div class="row overflow-hidden">
-                                    <div class="col-md-6">
-                                        <div class="input-field">
-                                            <div class="radio-field me-auto bounce-left">
-                                                <input type="radio" name="op1" value="Russia">
-                                                <label>Russia</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="input-field">
-                                            <div class="radio-field ms-auto bounce-left delay-100">
-                                                <input type="radio" name="op1" value="America">
-                                                <label>America</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="input-field">
-                                            <div class="radio-field me-auto bounce-left delay-200">
-                                                <input type="radio" name="op1" value="Australia">
-                                                <label>Australia</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="input-field">
-                                            <div class="radio-field ms-auto  bounce-left delay-300">
-                                                <input type="radio" name="op1" value="Hong Kong">
-                                                <label>Hong Kong</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </fieldset>
-                            <div class="next-prev">
-                                <button type="button" class="next" id="step1btn">next question<i class="fa-solid fa-arrow-right"></i></button>
-                            </div>
-                        </section>
-
-                        <!-- step 2 -->
-                        @foreach($list_pertanyaan as $key => $item)
-                        <section class="steps" style="display: none;">
-                            <h1 class="quiz-question">
-                                {{ $item->pertanyaan }}
-                            </h1>
-                            
-                            <!-- form -->
-                            <fieldset id="step2">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="input-field">
-                                            <div class="radio-field me-auto bounce-left">
-                                                <input type="radio" name="op2" value="horse">
-                                                <label>horse</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="input-field">
-                                            <div class="radio-field ms-auto bounce-left delay-100">
-                                                <input type="radio" name="op2" value="tiger">
-                                                <label>tiger</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="input-field">
-                                            <div class="radio-field me-auto bounce-left delay-200">
-                                                <input type="radio" name="op2" value="dog">
-                                                <label>dog</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="input-field">
-                                            <div class="radio-field ms-auto  bounce-left delay-300">
-                                                <input type="radio" name="op2" value="cat">
-                                                <label>cat</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </fieldset>
-                            <div class="next-prev">
-                                <button type="button" class="prev"><i class="fa-solid fa-arrow-left"></i>last question</button>
-                                <button type="button" class="next" id="step2btn">next question<i class="fa-solid fa-arrow-right"></i></button>
-                            </div>
-                        </section>
-                        @endforeach
-
-                        <!-- step 3 -->
-                        <section class="steps" style="display: none;">
-                            <h1 class="quiz-question">
-                                Never have time for yourself Because you  Need to take Care of your Family?
-                            </h1>
-                            
-                            <!-- form -->
-                            <fieldset id="step3">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="input-field">
-                                            <div class="radio-field me-auto bounce-left">
-                                                <input type="radio" name="op3" value="Russia">
-                                                <label>Russia</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="input-field">
-                                            <div class="radio-field ms-auto bounce-left delay-100">
-                                                <input type="radio" name="op3" value="America">
-                                                <label>America</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="input-field">
-                                            <div class="radio-field me-auto bounce-left delay-200">
-                                                <input type="radio" name="op3" value="Australia">
-                                                <label>Australia</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="input-field">
-                                            <div class="radio-field ms-auto  bounce-left delay-300">
-                                                <input type="radio" name="op3" value="Hong Kong">
-                                                <label>Hong Kong</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </fieldset>
-                            <div class="next-prev">
-                                <button type="button" class="prev">last question<i class="fa-solid fa-arrow-right"></i></button>
-                                <button type="button" class="next" id="step3btn">next question<i class="fa-solid fa-arrow-right"></i></button>
-                            </div>
-                        </section>
-
-                        <!-- step 4 -->
-                        <section class="steps" style="display: none;">
-                            <h1 class="quiz-question">
-                                The logo For Luxury Car Maker Porsche Features Which Animal?
-                            </h1>
-                            
-                            <!-- form -->
-                            <fieldset id="step4">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="input-field">
-                                            <div class="radio-field me-auto bounce-left">
-                                                <input type="radio" name="op4" value="horse">
-                                                <label>horse</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="input-field">
-                                            <div class="radio-field ms-auto bounce-left delay-100">
-                                                <input type="radio" name="op4" value="tiger">
-                                                <label>tiger</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="input-field">
-                                            <div class="radio-field me-auto bounce-left delay-200">
-                                                <input type="radio" name="op4" value="dog">
-                                                <label>dog</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="input-field">
-                                            <div class="radio-field ms-auto  bounce-left delay-300">
-                                                <input type="radio" name="op4" value="cat">
-                                                <label>cat</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </fieldset>
-                            <div class="next-prev">
-                                <button type="button" class="prev"><i class="fa-solid fa-arrow-left"></i>last question</button>
-                                <button type="button" class="next" id="step4btn">next question<i class="fa-solid fa-arrow-right"></i></button>
-                            </div>
-                        </section>
-                        <!-- step 4 -->
-                        <section class="steps" style="display: none;">
-                            <h1 class="quiz-question">
-                                The logo For Luxury Car Maker Porsche Features Which Animal?
-                            </h1>
-                            
-                            <!-- form -->
-                            <fieldset id="step5">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="input-field">
-                                            <div class="radio-field me-auto bounce-left">
-                                                <input type="radio" name="op4" value="horse">
-                                                <label>horse</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="input-field">
-                                            <div class="radio-field ms-auto bounce-left delay-100">
-                                                <input type="radio" name="op4" value="tiger">
-                                                <label>tiger</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="input-field">
-                                            <div class="radio-field me-auto bounce-left delay-200">
-                                                <input type="radio" name="op4" value="dog">
-                                                <label>dog</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="input-field">
-                                            <div class="radio-field ms-auto  bounce-left delay-300">
-                                                <input type="radio" name="op4" value="cat">
-                                                <label>cat</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </fieldset>
-                            <div class="next-prev">
-                                <button type="button" class="prev"><i class="fa-solid fa-arrow-left"></i>last question</button>
-                                <button type="button" class="next" id="step5btn">next question<i class="fa-solid fa-arrow-right"></i></button>
-                            </div>
-                        </section>
-                        
-                        <!-- step 5 -->
-                        <section class="steps" style="display: none;">
-                            <h1 class="quiz-question">
-                                Which animal spends 18 to 21 hours a day resting and sleeping?
-                            </h1>
-                            
-                            <!-- form -->
-                            <fieldset id="step6">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="input-field">
-                                            <div class="radio-field me-auto bounce-left">
-                                                <input type="radio" name="op5" value="Lion">
-                                                <label>Lion</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="input-field">
-                                            <div class="radio-field ms-auto bounce-left delay-100">
-                                                <input type="radio" name="op5" value="lioness">
-                                                <label>lioness</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="input-field">
-                                            <div class="radio-field me-auto bounce-left delay-200">
-                                                <input type="radio" name="op5" value="cub">
-                                                <label>cub</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="input-field">
-                                            <div class="radio-field ms-auto  bounce-left delay-300">
-                                                <input type="radio" name="op5" value="sea lion">
-                                                <label>sea lion</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </fieldset>
-                            <div class="next-prev">
-                                <button type="button" class="prev"><i class="fa-solid fa-arrow-left"></i>last question</button>
-                                <button type="button" class="next" id="sub">Submit<i class="fa-solid fa-arrow-right"></i></button>
-                            </div>
-                        </section>
-                    </form>
-
-                </div>
+                        @elseif($item->jenis_pertanyaan == 2)
+                        @php
+                            $keterangan = explode('|', $item->keterangan);
+                        @endphp
+                        @for($i = 0; $i < count($keterangan); $i++)
+                        <div class="custom-control custom-checkbox custom-control-inline mr-0">
+                            <input type="checkbox" value="{{ $keterangan[$i] }}" name="jawaban{{ $no }}[]" class="custom-control-input form-control" id="customCheck{{ $no.'-'.$i }}">
+                            <label class="custom-control-label mb-1" for="customCheck{{ $no.'-'.$i }}">{{ $keterangan[$i] }}</label>
+                        </div> <br>
+                        @endfor
+                        @elseif($item->jenis_pertanyaan == 3)
+                        <div class="form-group">
+                            <label for="">Judul</label>
+                            <textarea name="jawaban{{ $no }}[]" id="" cols="30" rows="3" class="form-control"></textarea>
+                            <em>{{ $item->keterangan }}</em>
+                        </div>
+                        @elseif($item->jenis_pertanyaan == 4)
+                        <div class="custom-control custom-radio custom-radio-color-checked custom-control-inline">
+                            <input type="radio" checked id="{{ $no }}-4" name="jawaban{{ $no }}[]" value="SB" class="custom-control-input bg-primary form-control">
+                            <label class="custom-control-label" for="{{ $no }}-4">Sangat Baik</label>
+                        </div><br>
+                        <div class="custom-control custom-radio custom-radio-color-checked custom-control-inline">
+                            <input type="radio" id="{{ $no }}-3" name="jawaban{{ $no }}[]" value="B" class="custom-control-input bg-primary form-control">
+                            <label class="custom-control-label" for="{{ $no }}-3">Baik</label>
+                        </div><br>
+                        <div class="custom-control custom-radio custom-radio-color-checked custom-control-inline">
+                            <input type="radio" id="{{ $no }}-2" name="jawaban{{ $no }}[]" value="C" class="custom-control-input bg-primary form-control">
+                            <label class="custom-control-label" for="{{ $no }}-2">Cukup Baik</label>
+                        </div><br>
+                        <div class="custom-control custom-radio custom-radio-color-checked custom-control-inline">
+                            <input type="radio" id="{{ $no }}-1" name="jawaban{{ $no }}[]" value="K" class="custom-control-input bg-primary form-control">
+                            <label class="custom-control-label" for="{{ $no }}-1">Kurang Baik</label>
+                        </div><br>
+                        @elseif($item->jenis_pertanyaan == 5)
+                        <div class="form-group">
+                            <label for="formControlRange">Range input</label>
+                            <input type="range" class="form-control-range form-control" id="formControlRange" name="jawaban{{ $no }}[]" min="0" value="0" max="10" step="1" list="ticks" >
+                            <datalist id="ticks">
+                                <option>0</option>
+                                <option>2</option>
+                                <option>4</option>
+                                <option>6</option>
+                                <option>8</option>
+                                <option>10</option>
+                            </datalist>
+                            <em>{{ $item->keterangan }}</em>
+                        </div>
+                        @endif
+                    </div>
+                    @php
+                        $no++
+                    @endphp
+                @endforeach
             </div>
-        </div>
-    </main>
-
-        <!-- result -->
-    <div class="loadingresult">
-        <img src="{{ asset('quiz_file') }}/loading.gif" alt="loading">
+            <div class="pagination">
+                <a class="btn hidden text-white" id="prev">Kembali</a>
+                <a class="btn text-white" id="next">Selanjutnya</a>
+                <button class="btn btn-submit hidden" type="submit" id="submit">Submit</button>
+            </div>
+        </form>
     </div>
 
-    <div class="main  thankyou-page" style="background-color: antiquewhite !important;">
-        <div class="main-inner">
-            <div class="logo">
-                <div class="logo-icon">
-                    <img src="{{ asset('quiz_file') }}/logo.png" alt="">
-                </div>
-                <div class="logo-text">
-                    Qzain.
-                </div>
-            </div>
-            <article>
-                <h1><span>Thank You</span> For Your Time!</h1>
-                <span>Your submission has been received</span>
-                <p>
-                    Tation argumentum et usu, dicit viderer evertitur te has. Eu dictas concludaturque 
-                    usu, facete detracto patrioque an per, lucilius pertinacia eu vel.
-                </p>
-            </article>
-            
-            <div class="social-media">
-                <a href="https://templates.seekviral.com/qzain/quiz/Quiz12/index.html#"><i class="fa-brands fa-google"></i>Google</a>
-                <a href="https://templates.seekviral.com/qzain/quiz/Quiz12/index.html#"><i class="fa-brands fa-apple"></i>Apple ID</a>
-                <a href="https://templates.seekviral.com/qzain/quiz/Quiz12/index.html#"><i class="fa-brands fa-facebook"></i>Facebook</a>
-            </div>
-            <div class="mb-5 back-home">
-                <a href="">Refresh</a>
-            </div>
-        </div>
-    </div>
+@endsection
 
-    <div id="error"></div>
+@push('scripts')
+<script>
+    const previousButton = document.querySelector('#prev')
+const nextButton = document.querySelector('#next')
+const submitButton = document.querySelector('#submit')
+const tabTargets = document.querySelectorAll('.tab')
+const tabPanels = document.querySelectorAll('.tabpanel')
+const isEmpty = (str) => !str.trim().length
+let currentStep = 0
 
-    <!-- bootstrap 5 -->
-    <script src="{{ asset('quiz_file') }}/bootstrap.min.js"></script>
+// Validate first input on load
+validateEntry()
 
-    <!-- jQuery -->
-    <script src="{{ asset('quiz_file') }}/jquery-3.6.3.min.js"></script>
+// Next: Change UI relative to current step and account for button permissions
+nextButton.addEventListener('click', (event) => {
+  event.preventDefault()
 
-    <!-- <Thankyou JS -->
-        <script src="{{ asset('quiz_file') }}/thankyou.js"></script>
-    <!-- Custom js -->
-    <script src="{{ asset('quiz_file') }}/custom.js"></script>
-    
+  // Hide current tab
+  tabPanels[currentStep].classList.add('hidden')
+  tabTargets[currentStep].classList.remove('active')
 
-</body></html>
+  // Show next tab
+  tabPanels[currentStep + 1].classList.remove('hidden')
+  tabTargets[currentStep + 1].classList.add('active')
+  currentStep += 1
+  
+  validateEntry()
+  updateStatusDisplay()
+})
+
+// Previous: Change UI relative to current step and account for button permissions
+previousButton.addEventListener('click', (event) => {
+  event.preventDefault()
+
+  // Hide current tab
+  tabPanels[currentStep].classList.add('hidden')
+  tabTargets[currentStep].classList.remove('active')
+
+  // Show previous tab
+  tabPanels[currentStep - 1].classList.remove('hidden')
+  tabTargets[currentStep - 1].classList.add('active')
+  currentStep -= 1
+
+  nextButton.removeAttribute('disabled')
+  updateStatusDisplay()
+})
+
+
+function updateStatusDisplay() {
+  // If on the last step, hide the next button and show submit
+  if (currentStep === tabTargets.length - 1) {
+    nextButton.classList.add('hidden')
+    previousButton.classList.remove('hidden')
+    submitButton.classList.remove('hidden')
+    validateEntry()
+
+    // If it's the first step hide the previous button
+  } else if (currentStep == 0) {
+    nextButton.classList.remove('hidden')
+    previousButton.classList.add('hidden')
+    submitButton.classList.add('hidden')
+    // In all other instances display both buttons
+  } else {
+    nextButton.classList.remove('hidden')
+    previousButton.classList.remove('hidden')
+    submitButton.classList.add('hidden')
+  }
+}
+
+function validateEntry() {
+  let input = tabPanels[currentStep].querySelector('.form-control')
+  
+  // Start but disabling continue button
+  nextButton.setAttribute('disabled', true)
+  submitButton.setAttribute('disabled', true)
+  
+  // Validate on initial function fire
+  setButtonPermissions(input)
+  
+  // Validate on input
+  input.addEventListener('input', () => setButtonPermissions(input))
+  // Validate if bluring from input
+  input.addEventListener('blur', () => setButtonPermissions(input))
+}
+
+function setButtonPermissions(input) {
+// console.log(input.value)
+  if (isEmpty(input.value)) {
+    nextButton.setAttribute('disabled', true)
+    submitButton.setAttribute('disabled', true)
+  } else {
+    nextButton.removeAttribute('disabled')
+    submitButton.removeAttribute('disabled')
+  }
+}
+
+</script>
+
+@endpush

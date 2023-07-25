@@ -63,6 +63,21 @@ return [
             ]) : [],
         ],
 
+        'PHIS-V2' => [
+            'driver' => 'pgsql',
+            'url' => env('DATABASE_URL'),
+            'host' => env('DB_HOST_PHIS', '127.0.0.1'),
+            'port' => env('DB_PORT_PHIS', '5432'),
+            'database' => env('DB_DATABASE_PHIS', 'forge'), 
+            'username' => env('DB_USERNAME_PHIS', 'forge'),
+            'password' => env('DB_PASSWORD_PHIS', ''),
+            'charset' => 'utf8',
+            'prefix' => '',
+            'prefix_indexes' => true,
+            'search_path' => 'public',
+            'sslmode' => 'prefer',
+        ],
+
         'pgsql' => [
             'driver' => 'pgsql',
             'url' => env('DATABASE_URL'),

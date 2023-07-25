@@ -17,16 +17,34 @@
                             <table id="datatable" class="table data-table table-striped">
                                 <thead>
                                     <tr class="ligth">
+                                        <th>Urutan</th>
                                         <th>Pertanyaan</th>
                                         <th>Jenis Pertanyaan</th>
+                                        <th>Jenis Survey</th>
+                                        <th>Kategori Survey</th>
                                         <th>#</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($data as $item)
                                         <tr>
+                                            <td>{{ $item->urutan }}</td>
                                             <td>{{ $item->pertanyaan }}</td>
-                                            <td>{{ $item->jenis_pertanyaan }}</td>
+                                            <td>
+                                                @if($item->jenis_pertanyaan == 1)
+                                                    Jawaban Singkat
+                                                @elseif($item->jenis_pertanyaan == 2)
+                                                    Kotak Centang
+                                                @elseif($item->jenis_pertanyaan == 3)
+                                                    Jawaban Panjang
+                                                @elseif($item->jenis_pertanyaan == 4)
+                                                    Pilihan
+                                                @elseif($item->jenis_pertanyaan == 5)
+                                                    Input Range
+                                                @endif
+                                            </td>
+                                            <td>{{ $item->nama_jenis_survey }}</td>
+                                            <td>{{ $item->nama_kategori_survey }}</td>
                                             <td>
                                                 <a onclick="return edit({{ $item->pertanyaan_id }})"
                                                     class="btn text-white btn-info">Ubah</a>
@@ -76,6 +94,12 @@
                                     <option value="4">Pilihan</option>
                                     <option value="5">Input Range</option>
                                 </select>
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="staticEmail" class="col-sm-2 col-form-label">Ketarangan</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="keterangan" name="keterangan">
                             </div>
                         </div>
                         <div class="mb-3 row">
@@ -146,7 +170,7 @@
                                 <div class="checkbox d-inline-block mr-3">
                                     <input type="checkbox" class="checkbox-input" id="checkbox1">
                                     <label for="checkbox1"> Judul</label>
-                                 </div>
+                                </div>
                             </td>
                         </tr>
                         <tr>
@@ -163,6 +187,19 @@
                                     <label for="formControlRange">Range input</label>
                                     <input type="range" class="form-control-range" id="formControlRange">
                                  </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Pilihan</th>
+                            <td>
+                                <div class="custom-control custom-radio custom-radio-color-checked custom-control-inline">
+                                    <input type="radio" id="customRadio-1" name="customRadio-10" class="custom-control-input bg-primary">
+                                    <label class="custom-control-label" for="customRadio-1"> Pilihan 1 </label>
+                                </div>
+                                <div class="custom-control custom-radio custom-radio-color-checked custom-control-inline">
+                                    <input type="radio" id="customRadio-2" name="customRadio-10" class="custom-control-input bg-primary">
+                                    <label class="custom-control-label" for="customRadio-2"> Pilihan 2 </label>
+                                </div>
                             </td>
                         </tr>
                     </table>
