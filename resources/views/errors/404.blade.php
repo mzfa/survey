@@ -63,7 +63,7 @@
             
             <p>URL yang anda cari tidak dapat ditemukan.</p>
             
-            <a href="{{ url('/') }}" class="link_404">Go to Home</a>
+            {{-- <a href="{{ url('/') }}" class="link_404">Go to Home</a> --}}
         </div>
             </div>
             </div>
