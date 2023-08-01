@@ -13,6 +13,7 @@ class LaporanSurveyExport implements FromView
     protected $akhir;
     protected $jenis_survey;
     protected $kategori_survey;
+    
     public function __construct(String $awal,String $akhir,String $jenis_survey,String $kategori_survey)
     {
         $this->awal = $awal;

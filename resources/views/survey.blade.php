@@ -55,19 +55,19 @@
                         @elseif($item->jenis_pertanyaan == 4)
                         <div class="custom-control custom-radio custom-radio-color-checked custom-control-inline">
                             <input type="radio" checked id="{{ $no }}-4" name="jawaban{{ $no }}[]" value="SB" class="custom-control-input bg-primary form-control">
-                            <label class="custom-control-label" for="{{ $no }}-4">Sangat Baik</label>
+                            <label class="custom-control-label" for="{{ $no }}-4">Sangat Puas</label>
                         </div><br>
                         <div class="custom-control custom-radio custom-radio-color-checked custom-control-inline">
                             <input type="radio" id="{{ $no }}-3" name="jawaban{{ $no }}[]" value="B" class="custom-control-input bg-primary form-control">
-                            <label class="custom-control-label" for="{{ $no }}-3">Baik</label>
+                            <label class="custom-control-label" for="{{ $no }}-3">Puas</label>
                         </div><br>
                         <div class="custom-control custom-radio custom-radio-color-checked custom-control-inline">
                             <input type="radio" id="{{ $no }}-2" name="jawaban{{ $no }}[]" value="C" class="custom-control-input bg-primary form-control">
-                            <label class="custom-control-label" for="{{ $no }}-2">Cukup Baik</label>
+                            <label class="custom-control-label" for="{{ $no }}-2">Cukup Puas</label>
                         </div><br>
                         <div class="custom-control custom-radio custom-radio-color-checked custom-control-inline">
                             <input type="radio" id="{{ $no }}-1" name="jawaban{{ $no }}[]" value="K" class="custom-control-input bg-primary form-control">
-                            <label class="custom-control-label" for="{{ $no }}-1">Kurang Baik</label>
+                            <label class="custom-control-label" for="{{ $no }}-1">Kurang Puas</label>
                         </div><br>
                         @elseif($item->jenis_pertanyaan == 5)
                         <div class="form-group">
