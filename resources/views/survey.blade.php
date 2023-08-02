@@ -83,6 +83,16 @@
                             </datalist>
                             <em>{{ $item->keterangan }}</em>
                         </div>
+                        @elseif($item->jenis_pertanyaan == 6)
+                        @php
+                            $keterangan = explode('|', $item->keterangan);
+                        @endphp
+                        @for($i = 0; $i < count($keterangan); $i++)
+                        <div class="custom-control custom-checkbox custom-control-inline mr-0">
+                            <input type="checkbox" value="{{ $keterangan[$i] }}" name="jawaban{{ $no }}[]" class="custom-control-input form-control" id="customCheck{{ $no.'-'.$i }}">
+                            <label class="custom-control-label mb-1" for="customCheck{{ $no.'-'.$i }}">{{ $keterangan[$i] }}</label>
+                        </div> <br>
+                        @endfor
                         @endif
                     </div>
                     @php

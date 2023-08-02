@@ -19,6 +19,7 @@
                                     <tr class="ligth">
                                         <th>Nama Jenis Survey</th>
                                         <th>Akronim</th>
+                                        <th>Link Survey</th>
                                         <th>#</th>
                                     </tr>
                                 </thead>
@@ -27,6 +28,7 @@
                                         <tr>
                                             <td>{{ $item->nama_jenis_survey }}</td>
                                             <td>{{ $item->akronim_jenis_survey }}</td>
+                                            <td><a target="_blank" href="{{ 'https://survey.rsumumpekerja-kbn.com/'.$item->akronim_jenis_survey.'/1' }}">{{ 'https://survey.rsumumpekerja-kbn.com/'.$item->akronim_jenis_survey.'/1' }}</a></td>
                                             <td>
                                                 <a onclick="return edit({{ $item->jenis_survey_id }})"
                                                     class="btn text-white btn-info">Ubah</a>

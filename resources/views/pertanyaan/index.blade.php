@@ -71,7 +71,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">Tambah  &nbsp; <button type="button" class="btn btn-primary"
-                            data-toggle="modal" data-target="#detailInput">Tambah</button></h5>
+                            data-toggle="modal" data-target="#detailInput">Contoh</button></h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -91,8 +91,9 @@
                                     <option value="1">Jawaban Singkat</option>
                                     <option value="2">Kotak Centang</option>
                                     <option value="3">Jawaban Panjang</option>
-                                    <option value="4">Pilihan</option>
+                                    <option value="4">Pilihan Puas tidak Puas</option>
                                     <option value="5">Input Range</option>
+                                    <option value="6">Pilihan Custom</option>
                                 </select>
                             </div>
                         </div>
@@ -100,6 +101,7 @@
                             <label for="staticEmail" class="col-sm-2 col-form-label">Ketarangan</label>
                             <div class="col-sm-10">
                                 <input type="text" class="form-control" id="keterangan" name="keterangan">
+                                <em>Anda harus memberikan tanda pemisah "|" untuk membuat pilihan custom dan kotak centang</em>
                             </div>
                         </div>
                         <div class="mb-3 row">
@@ -190,15 +192,36 @@
                             </td>
                         </tr>
                         <tr>
-                            <th>Pilihan</th>
+                            <th>Pilihan Puas & Tidak Puas</th>
                             <td>
                                 <div class="custom-control custom-radio custom-radio-color-checked custom-control-inline">
                                     <input type="radio" id="customRadio-1" name="customRadio-10" class="custom-control-input bg-primary">
-                                    <label class="custom-control-label" for="customRadio-1"> Pilihan 1 </label>
+                                    <label class="custom-control-label" for="customRadio-1"> Sangat Puas </label>
                                 </div>
                                 <div class="custom-control custom-radio custom-radio-color-checked custom-control-inline">
                                     <input type="radio" id="customRadio-2" name="customRadio-10" class="custom-control-input bg-primary">
-                                    <label class="custom-control-label" for="customRadio-2"> Pilihan 2 </label>
+                                    <label class="custom-control-label" for="customRadio-2"> Puas </label>
+                                </div>
+                                <div class="custom-control custom-radio custom-radio-color-checked custom-control-inline">
+                                    <input type="radio" id="customRadio-3" name="customRadio-10" class="custom-control-input bg-primary">
+                                    <label class="custom-control-label" for="customRadio-3"> Kurang Puas </label>
+                                </div>
+                                <div class="custom-control custom-radio custom-radio-color-checked custom-control-inline">
+                                    <input type="radio" id="customRadio-4" name="customRadio-10" class="custom-control-input bg-primary">
+                                    <label class="custom-control-label" for="customRadio-4"> Tidak Puas </label>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Pilihan Custom</th>
+                            <td>
+                                <div class="custom-control custom-radio custom-radio-color-checked custom-control-inline">
+                                    <input type="radio" id="customRadio-11" name="customRadio-11" class="custom-control-input bg-primary">
+                                    <label class="custom-control-label" for="customRadio-11"> Pilihan 1 </label>
+                                </div>
+                                <div class="custom-control custom-radio custom-radio-color-checked custom-control-inline">
+                                    <input type="radio" id="customRadio-12" name="customRadio-11" class="custom-control-input bg-primary">
+                                    <label class="custom-control-label" for="customRadio-12"> Pilihan 2 </label>
                                 </div>
                             </td>
                         </tr>

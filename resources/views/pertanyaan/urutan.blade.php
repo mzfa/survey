@@ -8,7 +8,7 @@
                 <div class="card">
                     <div class="card-header d-flex justify-content-between">
                         <div class="header-title">
-                            <h4 class="card-title">Mapping Urutan Pertanyaan &nbsp;</h4>
+                            <h4 class="card-title">Mapping Urutan Pertanyaan &nbsp; <a href="{{ url('pertanyaan') }}" class="btn btn-primary">Kembali Ke Pertanyaan</a></h4>
                             <br>
                         </div>
                     </div>
