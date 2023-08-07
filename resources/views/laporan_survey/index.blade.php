@@ -18,29 +18,29 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <label for="">Tanggal Awal</label>
-                                        <input type="date" name="tanggal_awal" class="form-control" required>
+                                        <input type="date" name="tanggal_awal" @isset($tanggal_awal) value="{{ $tanggal_awal }}" @endisset class="form-control" required>
                                     </div>
                                     <div class="col-md-6">
                                         <label for="">Tanggal Akhir</label>
-                                        <input type="date" name="tanggal_akhir" class="form-control" required>
+                                        <input type="date" name="tanggal_akhir" @isset($tanggal_akhir) value="{{ $tanggal_akhir }}" @endisset class="form-control" required>
                                     </div>
                                 </div>
                                 <div class="row mt-3">
                                     <div class="col-md-6">
                                         <label for="">Jenis Survey</label>
                                         <select name="jenis_survey_id" class="form-control select2" >
-                                            <option value="">All</option>
+                                            <option value="All" @isset($jenis_survey_id) @if($jenis_survey_id == "All") selected @endif @endif>All</option>
                                             @foreach($jenis_survey as $item)
-                                                <option value="{{ $item->jenis_survey_id }}">{{ $item->nama_jenis_survey }}</option>
+                                                <option value="{{ $item->jenis_survey_id }}"  @isset($jenis_survey_id) @if($jenis_survey_id == $item->jenis_survey_id) selected @endif @endif>{{ $item->nama_jenis_survey }}</option>
                                             @endforeach
                                         </select>
                                     </div>
                                     <div class="col-md-6">
                                         <label for="">Kategori Survey</label>
                                         <select name="kategori_survey_id" class="form-control select2" >
-                                            <option value="">All</option>
+                                            <option value="All" @isset($kategori_survey_id) @if($kategori_survey_id == "All") selected @endif @endif>All</option>
                                             @foreach($kategori_survey as $item)
-                                                <option value="{{ $item->kategori_survey_id }}">{{ $item->nama_kategori_survey }}</option>
+                                                <option value="{{ $item->kategori_survey_id }}" @isset($kategori_survey_id) @if($kategori_survey_id == $item->kategori_survey_id) selected @endif @endif>{{ $item->nama_kategori_survey }}</option>
                                             @endforeach
                                         </select>
                                     </div>

@@ -24,27 +24,39 @@ class LaporanSurveyController extends Controller
     }
     public function detail(Request $request)
     {
+        dump($request);
         $jenis_survey = $request->jenis_survey_id;
         $jenis_survey_id = $request->jenis_survey_id;
         $kategori_survey = $request->kategori_survey_id;
         $kategori_survey_id = $request->kategori_survey_id;
-        $tanggal_awal = $request->tanggal_awal.' 00:00:00';
+        $tanggal_awal = $request->tanggal_awal.' 00:00:01';
         $tanggal_akhir = $request->tanggal_akhir.' 23:59:59';
         $jenis_survey = DB::table('jenis_survey')->whereNull('jenis_survey.deleted_at')->get();
         $kategori_survey = DB::table('kategori_survey')->whereNull('kategori_survey.deleted_at')->get();
         // $data = DB::table('jawaban')->leftJoin('pertanyaan','jawaban.pertanyaan_id','=','pertanyaan.pertanyaan_id')->where(['pertanyaan.jenis_survey_id' => $jenis_survey])->get();
-        $data = DB::table('jawaban')
-        ->leftJoin('pertanyaan', 'jawaban.pertanyaan_id', '=', 'pertanyaan.pertanyaan_id')
-        // ->select([
-        //     'pertanyaan.*',
-        //     'jawaban.*',
-        // ])
-        ->select('user_id','tgl_jam')
-        ->distinct()
-        ->whereBetween('tgl_jam',[$tanggal_awal,$tanggal_akhir])
-        ->where('pertanyaan.jenis_survey_id',$jenis_survey_id)
-        ->where('pertanyaan.kategori_survey_id',$kategori_survey_id)
-        ->get();
+        $tambahan_jenis_survey = '';
+        $tambahan_kategori_survey = '';
+        if($jenis_survey_id != "All"){
+            $tambahan_jenis_survey = " AND pertanyaan.jenis_survey_id = $jenis_survey_id";
+        }
+        if($kategori_survey_id != "All"){
+            $tambahan_kategori_survey = " AND pertanyaan.kategori_survey_id = $kategori_survey_id";
+        }
+        $sql = "SELECT distinct user_id,tgl_jam FROM jawaban LEFT JOIN pertanyaan ON jawaban.pertanyaan_id=pertanyaan.pertanyaan_id WHERE tgl_jam BETWEEN '$tanggal_awal' AND '$tanggal_akhir' ".$tambahan_jenis_survey.$tambahan_kategori_survey;
+        $data = DB::select($sql);
+        // dd($data);
+        // $data = DB::table('jawaban')
+        // ->leftJoin('pertanyaan', 'jawaban.pertanyaan_id', '=', 'pertanyaan.pertanyaan_id')
+        // // ->select([
+        // //     'pertanyaan.*',
+        // //     'jawaban.*',
+        // // ])
+        // ->select('user_id','tgl_jam')
+        // ->distinct()
+        // ->whereBetween('tgl_jam',[$tanggal_awal,$tanggal_akhir])
+        // ->where('pertanyaan.jenis_survey_id',$jenis_survey_id)
+        // ->where('pertanyaan.kategori_survey_id',$kategori_survey_id)
+        // ->get();
         $data_detail = [];
         foreach($data as $item){
             $id = $item->user_id;
@@ -67,6 +79,7 @@ class LaporanSurveyController extends Controller
     }
     public function export_excel($awal,$akhir,$jenis_survey,$kategori_survey)
     {
+        // dd($request);
         $jenis_survey = $jenis_survey;
         $kategori_survey = $kategori_survey;
         $tanggal_awal = $awal.' 00:00:00';

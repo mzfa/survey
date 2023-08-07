@@ -31,23 +31,33 @@ class LaporanSurveyExport implements FromView
         // ->where('tgl_jam',[$this->awal,$this->akhir])
         // ->whereBetween('tgl_jam',[$this->awal,$this->akhir])
         // ->get();
-        $whereJenis = '';
-        if($this->jenis_survey != 0){
-            $whereJenis = 'pertanyaan.jenis_survey_id='.$this->jenis_survey;
-        }
+        // $whereJenis = '';
+        // if($this->jenis_survey != 0){
+        //     $whereJenis = 'pertanyaan.jenis_survey_id='.$this->jenis_survey;
+        // }
         // dd($whereJenis);
-        // $data = DB::select('SELECT * FROM jawaban LEFT JOIN pertanyaan ON jawaban.pertanyaan_id=pertanyaan.pertanyaan_id WHERE '.$whereJenis);
-        $data = DB::table('jawaban')
-        // ->leftJoin('pertanyaan', 'jawaban.pertanyaan_id', '=', 'pertanyaan.pertanyaan_id')
-        // ->select([
-        //     'pertanyaan.*',
-        //     'jawaban.*',
-        // ])
-        // ->groupBy('user_id')
-        ->select('user_id','tgl_jam')
-        ->distinct()
-        ->whereBetween('tgl_jam',[$this->awal,$this->akhir])
-        ->get();
+        // // $data = DB::select('SELECT * FROM jawaban LEFT JOIN pertanyaan ON jawaban.pertanyaan_id=pertanyaan.pertanyaan_id WHERE '.$whereJenis);
+        // $data = DB::table('jawaban')
+        // // ->leftJoin('pertanyaan', 'jawaban.pertanyaan_id', '=', 'pertanyaan.pertanyaan_id')
+        // // ->select([
+        // //     'pertanyaan.*',
+        // //     'jawaban.*',
+        // // ])
+        // // ->groupBy('user_id')
+        // ->select('user_id','tgl_jam')
+        // ->distinct()
+        // ->whereBetween('tgl_jam',[$this->awal,$this->akhir])
+        // ->get();
+        $tambahan_jenis_survey = '';
+        $tambahan_kategori_survey = '';
+        if($this->jenis_survey != "All"){
+            $tambahan_jenis_survey = " AND pertanyaan.jenis_survey_id = $this->jenis_survey";
+        }
+        if($this->kategori_survey != "All"){
+            $tambahan_kategori_survey = " AND pertanyaan.kategori_survey_id = $this->kategori_survey";
+        }
+        $sql = "SELECT distinct(user_id) FROM jawaban LEFT JOIN pertanyaan ON jawaban.pertanyaan_id=pertanyaan.pertanyaan_id WHERE tgl_jam BETWEEN '$this->awal' AND '$this->akhir' ".$tambahan_jenis_survey.$tambahan_kategori_survey;
+        $data = DB::select($sql);
         $data_detail = [];
         $no = 1;
         foreach($data as $item){

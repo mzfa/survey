@@ -14,6 +14,7 @@
             <option value="3" @if($data[0]->jenis_pertanyaan == 3) selected @endif>Jawaban Panjang</option>
             <option value="4" @if($data[0]->jenis_pertanyaan == 4) selected @endif>Pilihan</option>
             <option value="5" @if($data[0]->jenis_pertanyaan == 5) selected @endif>Input Range</option>
+            <option value="5" @if($data[0]->jenis_pertanyaan == 6) selected @endif>Pilihan Custom</option>
         </select>
     </div>
 </div>
