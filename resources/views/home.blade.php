@@ -8,7 +8,7 @@
                     <div class="card card-block card-stretch card-height">
                         <div class="card-body">
                             <div class="top-block d-flex align-items-center justify-content-between">
-                                <h5>Selamat Datang Di E-KASBON</h5>
+                                <h5>Selamat Datang Di Aplikasi {{ env('APP_NAME') }}</h5>
                                 <span class="badge badge-primary">Anda Login Sebagai {{ Auth::user()->username }}</span>
                             </div>
                         </div>

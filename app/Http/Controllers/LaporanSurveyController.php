@@ -24,7 +24,7 @@ class LaporanSurveyController extends Controller
     }
     public function detail(Request $request)
     {
-        dump($request);
+        // dump($request);
         $jenis_survey = $request->jenis_survey_id;
         $jenis_survey_id = $request->jenis_survey_id;
         $kategori_survey = $request->kategori_survey_id;
@@ -88,5 +88,10 @@ class LaporanSurveyController extends Controller
         $nama_file = 'Laporan_survey_'.date('Y-m-d_H-i-s').'.xlsx';
         return Excel::download(new LaporanSurveyExport($awal,$akhir,$jenis_survey,$kategori_survey), $nama_file);
     }
+    // public function export_excel($awal,$akhir,$jenis_survey,$kategori_survey)
+    // {
+        
+        
+    // }
     
 }
