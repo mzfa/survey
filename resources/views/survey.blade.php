@@ -54,19 +54,19 @@
                         </div>
                         @elseif($item->jenis_pertanyaan == 4)
                         <div class="custom-control custom-radio custom-radio-color-checked custom-control-inline">
-                            <input type="radio" checked id="{{ $no }}-4" name="jawaban{{ $no }}[]" value="SP" class="custom-control-input bg-primary form-control">
+                            <input type="radio" checked id="{{ $no }}-4" name="jawaban{{ $no }}[]" value="A" class="custom-control-input bg-primary form-control">
                             <label class="custom-control-label" for="{{ $no }}-4">Sangat Puas</label>
                         </div><br>
                         <div class="custom-control custom-radio custom-radio-color-checked custom-control-inline">
-                            <input type="radio" id="{{ $no }}-3" name="jawaban{{ $no }}[]" value="P" class="custom-control-input bg-primary form-control">
+                            <input type="radio" id="{{ $no }}-3" name="jawaban{{ $no }}[]" value="B" class="custom-control-input bg-primary form-control">
                             <label class="custom-control-label" for="{{ $no }}-3">Puas</label>
                         </div><br>
                         <div class="custom-control custom-radio custom-radio-color-checked custom-control-inline">
-                            <input type="radio" id="{{ $no }}-2" name="jawaban{{ $no }}[]" value="TP" class="custom-control-input bg-primary form-control">
+                            <input type="radio" id="{{ $no }}-2" name="jawaban{{ $no }}[]" value="C" class="custom-control-input bg-primary form-control">
                             <label class="custom-control-label" for="{{ $no }}-2">Tidak Puas</label>
                         </div><br>
                         <div class="custom-control custom-radio custom-radio-color-checked custom-control-inline">
-                            <input type="radio" id="{{ $no }}-1" name="jawaban{{ $no }}[]" value="STP" class="custom-control-input bg-primary form-control">
+                            <input type="radio" id="{{ $no }}-1" name="jawaban{{ $no }}[]" value="D" class="custom-control-input bg-primary form-control">
                             <label class="custom-control-label" for="{{ $no }}-1">Sangat Tidak Puas</label>
                         </div><br>
                         @elseif($item->jenis_pertanyaan == 5)
