@@ -59,6 +59,7 @@
                             $kategori_survey_id = ($kategori_survey_id) ? $kategori_survey_id : 0;
                         @endphp
                         <a target="_blank" href="{{ url('laporan_survey/export_excel/'.$tanggal_awal.'/'.$tanggal_akhir.'/'.$jenis_survey_id.'/'.$kategori_survey_id) }}" class="btn btn-primary">Excel</a>
+                        <a target="_blank" href="{{ url('laporan_survey/chart/'.$tanggal_awal.'/'.$tanggal_akhir.'/'.$jenis_survey_id.'/'.$kategori_survey_id) }}" class="btn btn-primary">Chart</a>
                         <div class="table-responsive">
                             <table id="datatable" class="table data-table table-striped">
                                 <thead>

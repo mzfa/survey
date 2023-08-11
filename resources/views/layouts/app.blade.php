@@ -23,6 +23,65 @@
     <link rel="stylesheet" href="{{ asset('assets/vendor/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <style type="text/css">
+        @import "https://code.highcharts.com/css/highcharts.css";
+        
+        .highcharts-pie-series .highcharts-point {
+            stroke: #ede;
+            stroke-width: 2px;
+        }
+        
+        .highcharts-pie-series .highcharts-data-label-connector {
+            stroke: silver;
+            stroke-dasharray: 2, 2;
+            stroke-width: 2px;
+        }
+        
+        .highcharts-figure,
+        .highcharts-data-table table {
+            min-width: 320px;
+            max-width: 600px;
+            margin: 1em auto;
+        }
+        
+        .highcharts-data-table table {
+            font-family: Verdana, sans-serif;
+            border-collapse: collapse;
+            border: 1px solid #ebebeb;
+            margin: 10px auto;
+            text-align: center;
+            width: 100%;
+            max-width: 500px;
+        }
+        
+        .highcharts-data-table caption {
+            padding: 1em 0;
+            font-size: 1.2em;
+            color: #555;
+        }
+        
+        .highcharts-data-table th {
+            font-weight: 600;
+            padding: 0.5em;
+        }
+        
+        .highcharts-data-table td,
+        .highcharts-data-table th,
+        .highcharts-data-table caption {
+            padding: 0.5em;
+        }
+        
+        .highcharts-data-table thead tr,
+        .highcharts-data-table tr:nth-child(even) {
+            background: #f8f8f8;
+        }
+        
+        .highcharts-data-table tr:hover {
+            background: #f1f7ff;
+        }
+        
+    </style>
+
 </head>
 
 <body class="  ">
@@ -39,7 +98,7 @@
             <div class="iq-sidebar-logo d-flex align-items-center">
                 <a href="backend/index.html" class="header-logo">
                     <img src="{{ asset('assets/images/logo.svg') }}" alt="logo">
-                    <h3 class="logo-title light-logo">Webkit</h3>
+                    <h3 class="logo-title light-logo">Survey</h3>
                 </a>
                 <div class="iq-menu-bt-sidebar ml-0">
                     <i class="las la-bars wrapper-menu"></i>
@@ -409,12 +468,13 @@
 
     <script src="{{ asset('assets/vendor/moment.min.js') }}"></script>
 
+    @stack('scripts')
+
     <script>
         $(document).ready(function() {
             $('.select2').select2();
         });
     </script>
-    @stack('scripts')
 </body>
 
 </html>

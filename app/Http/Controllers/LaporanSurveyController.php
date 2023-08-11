@@ -88,10 +88,77 @@ class LaporanSurveyController extends Controller
         $nama_file = 'Laporan_survey_'.date('Y-m-d_H-i-s').'.xlsx';
         return Excel::download(new LaporanSurveyExport($awal,$akhir,$jenis_survey,$kategori_survey), $nama_file);
     }
-    // public function export_excel($awal,$akhir,$jenis_survey,$kategori_survey)
-    // {
-        
-        
-    // }
+    public function export_chart($awal,$akhir,$jenis_survey,$kategori_survey)
+    {
+        $tambahan_jenis_survey = '';
+        $tambahan_kategori_survey = '';
+        $awal = $awal.' 00:00:00';
+        $akhir = $akhir.' 23:59:59';
+        if($jenis_survey != "All"){
+            $tambahan_jenis_survey = " AND pertanyaan.jenis_survey_id = $jenis_survey";
+        }
+        if($kategori_survey != "All"){
+            $tambahan_kategori_survey = " AND pertanyaan.kategori_survey_id = $kategori_survey";
+        }
+        $sql = "SELECT distinct user_id,tgl_jam FROM jawaban LEFT JOIN pertanyaan ON jawaban.pertanyaan_id=pertanyaan.pertanyaan_id WHERE tgl_jam BETWEEN '$awal' AND '$akhir' ".$tambahan_jenis_survey.$tambahan_kategori_survey. ' ORDER BY user_id DESC';
+        $data = DB::select($sql);
+        // dump($sql);
+        // dd($data);
+        $data_detail = [];
+        $no = 1;
+        $status_pertanyaan = 0;
+        $sp = 0;
+        $p = 0;
+        $tp = 0;
+        $stp = 0;
+        foreach($data as $item){
+            $id = $item->user_id;
+            $tgl_jam = $item->tgl_jam;
+            $hasil_header = [
+                'No',
+                'Nama',
+                'Tanggal Masuk',
+                'Jenis Rawat',
+            ];
+            $registrasi = DB::connection('PHIS-V2')
+            ->table('registrasi')
+            ->select('pasien.nama_pasien','registrasi.tgl_masuk','registrasi.jenis_rawat')
+            ->leftJoin('pasien', 'registrasi.pasien_id', '=', 'pasien.pasien_id')
+            ->where('registrasi_id',$id)
+            ->first();
+            $hasil_jawaban = [];
+            $data_jawaban = DB::select("SELECT jawaban,pertanyaan FROM jawaban LEFT JOIN pertanyaan ON jawaban.pertanyaan_id=pertanyaan.pertanyaan_id WHERE tgl_jam='$tgl_jam' AND user_id='$id' ORDER BY jawaban_id asc");
+            $hasil_jawaban = [
+                $no++,
+                $registrasi->nama_pasien,
+                $registrasi->tgl_masuk,
+                $registrasi->jenis_rawat,
+            ];
+            foreach($data_jawaban as $jawabannya){
+                // dump($jawabannya->jawaban);
+                if($jawabannya->jawaban == 'A'){
+                    $sp+=1;
+                }elseif($jawabannya->jawaban == 'B'){
+                    $p+=1;
+                }elseif($jawabannya->jawaban == 'C'){
+                    $tp+=1;
+                }elseif($jawabannya->jawaban == 'D'){
+                    $stp+=1;
+                }
+            }
+            // $data_detail[] = $hasil_jawaban; 
+        }
+        $data_detail = [$sp,$p,$tp,$stp];
+        $data = [["Sangat Puas", $sp],["Puas",$p],["Tidak Puas", $tp],["Sangat Tidak Puas",$stp]];
+        $header = ["Sangat Puas","Puas","Tidak Puas","Sangat Tidak Puas"];
+        // dd($header,$data_detail);
+        return view('export.laporan_survey_chart', 
+        [
+            'data' => $data,
+            'data_detail' => $data_detail,
+            'header' => $header,
+        ]
+    );        
+    }
     
 }

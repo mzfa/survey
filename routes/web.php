@@ -118,6 +118,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/laporan_survey/index', 'index')->name('laporan_survey.index');
         Route::post('/laporan_survey/index', 'detail');
         Route::get('/laporan_survey/export_excel/{awal}/{akhir}/{jenis_survey}/{kategori_survey}', 'export_excel');
+        Route::get('/laporan_survey/chart/{awal}/{akhir}/{jenis_survey}/{kategori_survey}', 'export_chart');
         // Route::post('/laporan_survey/detail', 'detail');
     });
     Route::controller(LaporanJenisPembayaranController::class)->middleware('cek_login:laporan_jenis_pembayaran.index')->group(function () {
