@@ -32,7 +32,7 @@ class LaporanSurveyExport implements FromView
         if($this->kategori_survey != "All"){
             $tambahan_kategori_survey = " AND pertanyaan.kategori_survey_id = $this->kategori_survey";
         }
-        $sql = "SELECT distinct user_id,tgl_jam FROM jawaban LEFT JOIN pertanyaan ON jawaban.pertanyaan_id=pertanyaan.pertanyaan_id WHERE tgl_jam BETWEEN '$this->awal' AND '$this->akhir' ".$tambahan_jenis_survey.$tambahan_kategori_survey. ' ORDER BY user_id DESC';
+        $sql = "SELECT distinct user_id,tgl_jam FROM jawaban LEFT JOIN pertanyaan ON jawaban.pertanyaan_id=pertanyaan.pertanyaan_id WHERE tgl_jam BETWEEN '$this->awal' AND '$this->akhir' ".$tambahan_jenis_survey.$tambahan_kategori_survey. ' ORDER BY jawaban_id DESC';
         $data = DB::select($sql);
         // dump($sql);
         // dd($data);
@@ -55,9 +55,9 @@ class LaporanSurveyExport implements FromView
             ->where('registrasi_id',$id)
             ->first();
             $hasil_jawaban = [];
-            $data_jawaban = DB::select("SELECT jawaban,pertanyaan FROM jawaban LEFT JOIN pertanyaan ON jawaban.pertanyaan_id=pertanyaan.pertanyaan_id WHERE tgl_jam='$tgl_jam' AND user_id='$id' ORDER BY jawaban_id asc");
+            $data_jawaban = DB::select("SELECT jawaban,pertanyaan FROM jawaban LEFT JOIN pertanyaan ON jawaban.pertanyaan_id=pertanyaan.pertanyaan_id WHERE tgl_jam='$tgl_jam' AND user_id='$id' ORDER BY jawaban_id desc");
             $hasil_jawaban = [
-                $no++,
+                $id.''.$tgl_jam,
                 $registrasi->nama_pasien,
                 $registrasi->tgl_masuk,
                 $registrasi->jenis_rawat,
