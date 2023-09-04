@@ -70,9 +70,11 @@ class SurveyEksekutifController extends Controller
             }
             // for($i = 0; $i < count($jwb); $i++){
             // }
+            $tgl = now();
             $data[] = [
                 'user_id' => $user_id,
                 'pertanyaan_id' => $item,
+                'tgl_jam' => $tgl,
                 'jawaban' => $jawaban,
             ];
         }

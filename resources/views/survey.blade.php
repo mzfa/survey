@@ -20,7 +20,7 @@
             <span class="col-1 tab @if($no == 1) active @endif">{{ $no++ }}</span>
             @endforeach
         </div>
-        <form action="{{ url('action/'.$jenis_survey_id) }}" method="post">
+        <form action="{{ url('action/'.$jenis_survey_id) }}" method="post" >
             @csrf
             <input type="hidden" name="id" value="{{ $id }}">
             <div role="tab-list">
@@ -120,6 +120,15 @@
 
 @push('scripts')
 <script>
+$(document).ready(function() {
+  $(window).keydown(function(event){
+    if(event.keyCode == 13) {
+      event.preventDefault();
+      return false;
+    }
+  });
+});
+
     const previousButton = document.querySelector('#prev')
 const nextButton = document.querySelector('#next')
 const submitButton = document.querySelector('#submit')
