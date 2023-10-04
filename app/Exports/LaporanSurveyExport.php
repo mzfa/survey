@@ -47,34 +47,61 @@ class LaporanSurveyExport implements FromView
                 'Nama',
                 'Tanggal Masuk',
                 'Jenis Rawat',
+                'Telp',
             ];
             $registrasi = DB::connection('PHIS-V2')
             ->table('registrasi')
-            ->select('pasien.nama_pasien','registrasi.tgl_masuk','registrasi.jenis_rawat')
-            ->leftJoin('pasien', 'registrasi.pasien_id', '=', 'pasien.pasien_id')
-            ->where('registrasi_id',$id)
+            ->select('pasien.nama_pasien','registrasi.tgl_masuk','registrasi.jenis_rawat','pasien.no_hp')
+            ->rightJoin('pasien', 'registrasi.pasien_id', '=', 'pasien.pasien_id')
+            ->where('registrasi.registrasi_id',$id)
             ->first();
+            // if($id == '216868'){
+            //     $registrasi = DB::connection('PHIS-V2')
+            //     ->table('registrasi')
+            //     ->select('pasien.nama_pasien','registrasi.tgl_masuk','registrasi.jenis_rawat')
+            //     ->rightJoin('pasien', 'registrasi.pasien_id', '=', 'pasien.pasien_id')
+            //     ->where('registrasi.registrasi_id',$id)
+            //     ->get();
+            //     dd($registrasi,$id);
+            // }
             $hasil_jawaban = [];
             $data_jawaban = DB::select("SELECT jawaban,pertanyaan FROM jawaban LEFT JOIN pertanyaan ON jawaban.pertanyaan_id=pertanyaan.pertanyaan_id WHERE tgl_jam='$tgl_jam' AND user_id='$id' ORDER BY jawaban_id desc");
+            $tanggal_masuk = date('d-m-Y', strtotime($tgl_jam));
             $hasil_jawaban = [
-                $id.''.$tgl_jam,
+                $id.' - '.$tanggal_masuk,
                 $registrasi->nama_pasien,
-                $registrasi->tgl_masuk,
+                date('d-m-Y', strtotime($registrasi->tgl_masuk)),
                 $registrasi->jenis_rawat,
+                \Str::substr($registrasi->no_hp, 0, 1) == 0 ? \Str::replaceFirst('0', '62', $registrasi->no_hp) : $registrasi->no_hp,
             ];
+            $skor = 0;
+            $skor_utama = 0;
             foreach($data_jawaban as $jawabannya){
+                if(in_array($jawabannya->jawaban,['A','B','C','D'])){
+                    $skor_utama += 4;
+                }
+                if($jawabannya->jawaban == 'A'){
+                    $skor += 4;
+                }elseif($jawabannya->jawaban == 'B'){
+                    $skor += 3;
+                }elseif($jawabannya->jawaban == 'C'){
+                    $skor += 2;
+                }elseif($jawabannya->jawaban == 'D'){
+                    $skor += 1;
+                }
                 array_push($hasil_jawaban, $jawabannya->jawaban);
             }
             if(count($hasil_jawaban) !== $status_pertanyaan){
                 foreach($data_jawaban as $jawabannya){
                     array_push($hasil_header, $jawabannya->pertanyaan);
                 }
+                array_push($hasil_header, 'skor ('.$skor_utama.')');
                 $status_pertanyaan = count($hasil_jawaban);
                 // dump($hasil_header);
                 $data_detail[] = $hasil_header; 
             }
+            array_push($hasil_jawaban, $skor);
             $data_detail[] = $hasil_jawaban; 
-
 
         }
         $no_pemisah = 0;

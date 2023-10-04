@@ -24,7 +24,6 @@ class LaporanSurveyController extends Controller
     }
     public function detail(Request $request)
     {
-        // dump($request);
         $jenis_survey = $request->jenis_survey_id;
         $jenis_survey_id = $request->jenis_survey_id;
         $kategori_survey = $request->kategori_survey_id;

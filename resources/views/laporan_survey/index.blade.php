@@ -26,7 +26,7 @@
                                     </div>
                                 </div>
                                 <div class="row mt-3">
-                                    <div class="col-md-6">
+                                    <div class="col-md-12">
                                         <label for="">Jenis Survey</label>
                                         <select name="jenis_survey_id" class="form-control select2" >
                                             <option value="All" @isset($jenis_survey_id) @if($jenis_survey_id == "All") selected @endif @endif>All</option>
@@ -35,7 +35,8 @@
                                             @endforeach
                                         </select>
                                     </div>
-                                    <div class="col-md-6">
+                                    <input type="hidden" name="kategori_survey_id" value="All">
+                                    {{-- <div class="col-md-6">
                                         <label for="">Kategori Survey</label>
                                         <select name="kategori_survey_id" class="form-control select2" >
                                             <option value="All" @isset($kategori_survey_id) @if($kategori_survey_id == "All") selected @endif @endif>All</option>
@@ -43,7 +44,7 @@
                                                 <option value="{{ $item->kategori_survey_id }}" @isset($kategori_survey_id) @if($kategori_survey_id == $item->kategori_survey_id) selected @endif @endif>{{ $item->nama_kategori_survey }}</option>
                                             @endforeach
                                         </select>
-                                    </div>
+                                    </div> --}}
                                 </div>
                                 <div class="row mt-2">
                                     <div class="col-12">
