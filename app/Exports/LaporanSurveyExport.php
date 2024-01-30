@@ -32,14 +32,26 @@ class LaporanSurveyExport implements FromView
         if($this->kategori_survey != "All"){
             $tambahan_kategori_survey = " AND pertanyaan.kategori_survey_id = $this->kategori_survey";
         }
-        $sql = "SELECT distinct user_id,tgl_jam FROM jawaban LEFT JOIN pertanyaan ON jawaban.pertanyaan_id=pertanyaan.pertanyaan_id WHERE tgl_jam BETWEEN '$this->awal' AND '$this->akhir' ".$tambahan_jenis_survey.$tambahan_kategori_survey. ' ORDER BY jawaban_id DESC';
+        $sql = "SELECT distinct user_id,tgl_jam,pertanyaan.pertanyaan FROM jawaban LEFT JOIN pertanyaan ON jawaban.pertanyaan_id=pertanyaan.pertanyaan_id WHERE tgl_jam BETWEEN '$this->awal' AND '$this->akhir' ".$tambahan_jenis_survey.$tambahan_kategori_survey. ' ORDER BY pertanyaan.jenis_survey_id,jawaban.jawaban_id DESC';
         $data = DB::select($sql);
         // dump($sql);
-        // dd($data);
+        $data_pasien_survey = [];
+        $indikator = [];
+        foreach($data as $item){
+            $data_pasien_survey[$item->user_id] = $item;
+            $indikator[$item->pertanyaan]['A'] = 0;
+            $indikator[$item->pertanyaan]['B'] = 0;
+            $indikator[$item->pertanyaan]['C'] = 0;
+            $indikator[$item->pertanyaan]['D'] = 0;
+        }
+        // foreach($data_pasien_survey as $item1){
+        //     echo $item1->user_id.'<br>';
+        // }
+        // dd($data_pasien_survey);
         $data_detail = [];
         $no = 1;
         $status_pertanyaan = 0;
-        foreach($data as $item){
+        foreach($data_pasien_survey as $item){
             $id = $item->user_id;
             $tgl_jam = $item->tgl_jam;
             $hasil_header = [
@@ -47,7 +59,7 @@ class LaporanSurveyExport implements FromView
                 'Nama',
                 'Tanggal Masuk',
                 'Jenis Rawat',
-                'Telp',
+                'Jenis Pengisian survey'
             ];
             $registrasi = DB::connection('PHIS-V2')
             ->table('registrasi')
@@ -65,14 +77,16 @@ class LaporanSurveyExport implements FromView
             //     dd($registrasi,$id);
             // }
             $hasil_jawaban = [];
-            $data_jawaban = DB::select("SELECT jawaban,pertanyaan FROM jawaban LEFT JOIN pertanyaan ON jawaban.pertanyaan_id=pertanyaan.pertanyaan_id WHERE tgl_jam='$tgl_jam' AND user_id='$id' ORDER BY jawaban_id desc");
+            $data_jawaban = DB::select("SELECT DISTINCT jawaban,pertanyaan,pertanyaan.pertanyaan_id FROM jawaban LEFT JOIN pertanyaan ON jawaban.pertanyaan_id=pertanyaan.pertanyaan_id WHERE tgl_jam='$tgl_jam' AND user_id='$id' ORDER BY pertanyaan.pertanyaan_id asc");
             $tanggal_masuk = date('d-m-Y', strtotime($tgl_jam));
+            $jenis_pengisian_survey = ($id == 1) ? 'Scan Barcode Dirumah sakit' : 'Whatsapp Blast';
+            $jenis_rawat = ($id == 1) ? 'RI' : $registrasi->jenis_rawat;
             $hasil_jawaban = [
-                $id.' - '.$tanggal_masuk,
+                $no++,
                 $registrasi->nama_pasien,
                 date('d-m-Y', strtotime($registrasi->tgl_masuk)),
-                $registrasi->jenis_rawat,
-                \Str::substr($registrasi->no_hp, 0, 1) == 0 ? \Str::replaceFirst('0', '62', $registrasi->no_hp) : $registrasi->no_hp,
+                $jenis_rawat,
+                $jenis_pengisian_survey
             ];
             $skor = 0;
             $skor_utama = 0;
@@ -81,12 +95,16 @@ class LaporanSurveyExport implements FromView
                     $skor_utama += 4;
                 }
                 if($jawabannya->jawaban == 'A'){
+                    $indikator[$jawabannya->pertanyaan]['A'] += 1;
                     $skor += 4;
                 }elseif($jawabannya->jawaban == 'B'){
+                    $indikator[$jawabannya->pertanyaan]['B'] += 1;
                     $skor += 3;
                 }elseif($jawabannya->jawaban == 'C'){
+                    $indikator[$jawabannya->pertanyaan]['C'] += 1;
                     $skor += 2;
                 }elseif($jawabannya->jawaban == 'D'){
+                    $indikator[$jawabannya->pertanyaan]['D'] += 1;
                     $skor += 1;
                 }
                 array_push($hasil_jawaban, $jawabannya->jawaban);
@@ -102,10 +120,17 @@ class LaporanSurveyExport implements FromView
             }
             array_push($hasil_jawaban, $skor);
             $data_detail[] = $hasil_jawaban; 
-
+        }
+        $data_detail[] = ['Pertanyaan', 'Sangat Puas','Puas','Tidak Puas','Sangat Tidak Puas','Total Responden'];
+        // dd($indikator);
+        foreach($indikator as $key => $indi){
+            if($indi['A'] != 0 || $indi['B'] != 0 || $indi['C'] != 0 || $indi['D'] != 0){
+                $total_responden = $indi['A'] + $indi['B'] + $indi['C'] + $indi['D'];
+                $data_detail[] = [$key, $indi['A'], $indi['B'], $indi['C'], $indi['D'], $total_responden];
+            }
         }
         $no_pemisah = 0;
-        
+        // dd($data_detail);
         return view('export.laporan_survey_excel', [
             'data_detail' => $data_detail,
         ]);
