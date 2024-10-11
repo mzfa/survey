@@ -19,6 +19,7 @@
                                     <tr class="ligth">
                                         <th>Nama</th>
                                         <th>Username</th>
+                                        <th>Password</th>
                                         <th>Level User </th>
                                         <th>#</th>
                                     </tr>
@@ -28,6 +29,7 @@
                                     <tr>
                                         <td>{{ $item->name }}</td>
                                         <td>{{ $item->username }}</td>
+                                        <td>{{ $item->password }}</td>
                                         <td>{{ $item->nama_hakakses }}</td>
                                         <td><a onclick="return akses({{ $item->id }})" class="btn text-white btn-info">Kasih Akses</a></td>
                                     </tr>
