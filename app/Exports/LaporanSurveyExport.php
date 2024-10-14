@@ -61,12 +61,12 @@ class LaporanSurveyExport implements FromView
                 'Jenis Rawat',
                 'Jenis Pengisian survey'
             ];
-            $registrasi = DB::connection('PHIS-V2')
-            ->table('registrasi')
-            ->select('pasien.nama_pasien','registrasi.tgl_masuk','registrasi.jenis_rawat','pasien.no_hp')
-            ->rightJoin('pasien', 'registrasi.pasien_id', '=', 'pasien.pasien_id')
-            ->where('registrasi.registrasi_id',$id)
-            ->first();
+            // $registrasi = DB::connection('PHIS-V2')
+            // ->table('registrasi')
+            // ->select('pasien.nama_pasien','registrasi.tgl_masuk','registrasi.jenis_rawat','pasien.no_hp')
+            // ->rightJoin('pasien', 'registrasi.pasien_id', '=', 'pasien.pasien_id')
+            // ->where('registrasi.registrasi_id',$id)
+            // ->first();
             // if($id == '216868'){
             //     $registrasi = DB::connection('PHIS-V2')
             //     ->table('registrasi')
@@ -80,11 +80,12 @@ class LaporanSurveyExport implements FromView
             $data_jawaban = DB::select("SELECT DISTINCT jawaban,pertanyaan,pertanyaan.pertanyaan_id FROM jawaban LEFT JOIN pertanyaan ON jawaban.pertanyaan_id=pertanyaan.pertanyaan_id WHERE tgl_jam='$tgl_jam' AND user_id='$id' ORDER BY pertanyaan.pertanyaan_id asc");
             $tanggal_masuk = date('d-m-Y', strtotime($tgl_jam));
             $jenis_pengisian_survey = ($id == 1) ? 'Scan Barcode Dirumah sakit' : 'Whatsapp Blast';
-            $jenis_rawat = ($id == 1) ? 'RI' : $registrasi->jenis_rawat;
+            $jenis_rawat = ($id == 1) ? 'RI' : $this->jenis_survey;
             $hasil_jawaban = [
                 $no++,
-                $registrasi->nama_pasien,
-                date('d-m-Y', strtotime($registrasi->tgl_masuk)),
+                'nama_pasien',
+                // date('d-m-Y', strtotime($registrasi->tgl_masuk)),
+                'tgl masuk',
                 $jenis_rawat,
                 $jenis_pengisian_survey
             ];

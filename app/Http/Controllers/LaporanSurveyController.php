@@ -58,17 +58,23 @@ class LaporanSurveyController extends Controller
         // ->get();
         $data_detail = [];
         foreach($data as $item){
-            $id = $item->user_id;
-            $registrasi = DB::connection('PHIS-V2')
-            ->table('registrasi')
-            ->leftJoin('pasien', 'registrasi.pasien_id', '=', 'pasien.pasien_id')
-            ->where('registrasi_id',$id)
-            ->first();
+            // $id = $item->user_id;
+            // $registrasi = DB::connection('PHIS-V2')
+            // ->table('registrasi')
+            // ->leftJoin('pasien', 'registrasi.pasien_id', '=', 'pasien.pasien_id')
+            // ->where('registrasi_id',$id)
+            // ->first();
             
+            // $data_detail[] = [
+            //     'nama_pasien' => $registrasi->nama_pasien,
+            //     'kunjungan' => $registrasi->tgl_masuk,
+            //     'jenis_rawat' => $registrasi->jenis_rawat,
+            //     'di_isi' => $item->tgl_jam,
+            // ];
             $data_detail[] = [
-                'nama_pasien' => $registrasi->nama_pasien,
-                'kunjungan' => $registrasi->tgl_masuk,
-                'jenis_rawat' => $registrasi->jenis_rawat,
+                'nama_pasien' => 'nama_pasien',
+                'kunjungan' => 'tgl_masuk',
+                'jenis_rawat' => 'jenis_rawat',
                 'di_isi' => $item->tgl_jam,
             ];
         }
