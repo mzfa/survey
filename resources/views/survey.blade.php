@@ -5,8 +5,8 @@
         <div class="card">
             <div class="row mb-3">
                 <div class="text-center">
-                    <img width="25%" src="{{ asset('assets/img/rsup.png') }}">
-                    <img width="20%" src="{{ asset('assets/img/kgm.png') }}">
+                    <img width="25%" src="{{ asset('assets/img/logo-rs.png') }}">
+                    {{-- <img width="20%" src="{{ asset('assets/img/kgm.png') }}"> --}}
                     <img width="35%" src="{{ asset('assets/img/ihc.png') }}">
                 </div>
             </div>
