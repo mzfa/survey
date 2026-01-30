@@ -9,7 +9,7 @@
                         <div class="d-flex justify-content-between">
                             <img width="25%" src="{{ asset('assets/img/rsup.png') }}">
                             <img width="20%" src="{{ asset('assets/img/kgm.png') }}">
-                            <img width="35%" src="{{ asset('assets/img/ihc.png') }}">
+                            <img width="35%" src="{{ asset('assets/img/danantara.png') }}">
                         </div>
                     </div>
                     {{-- <h5>SURVEY PELANGGAN</h5> --}}

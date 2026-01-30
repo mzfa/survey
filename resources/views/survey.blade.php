@@ -7,7 +7,7 @@
                 <div class="text-center">
                     <img width="25%" src="{{ asset('assets/img/logo-rs.png') }}">
                     {{-- <img width="20%" src="{{ asset('assets/img/kgm.png') }}"> --}}
-                    <img width="35%" src="{{ asset('assets/img/ihc.png') }}">
+                    <img width="35%" src="{{ asset('assets/img/danantara.png') }}">
                 </div>
             </div>
             <h5 class="text-center mb-3">Survey Kepuasan Pelanggan <br> RS UMUM & PEKERJA</h5>
