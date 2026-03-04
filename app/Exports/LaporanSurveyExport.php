@@ -95,19 +95,41 @@ class LaporanSurveyExport implements FromView
                 if(in_array($jawabannya->jawaban,['A','B','C','D'])){
                     $skor_utama += 4;
                 }
-                if($jawabannya->jawaban == 'A'){
-                    $indikator[$jawabannya->pertanyaan]['A'] += 1;
-                    $skor += 4;
-                }elseif($jawabannya->jawaban == 'B'){
-                    $indikator[$jawabannya->pertanyaan]['B'] += 1;
-                    $skor += 3;
-                }elseif($jawabannya->jawaban == 'C'){
-                    $indikator[$jawabannya->pertanyaan]['C'] += 1;
-                    $skor += 2;
-                }elseif($jawabannya->jawaban == 'D'){
-                    $indikator[$jawabannya->pertanyaan]['D'] += 1;
-                    $skor += 1;
+                $pertanyaan = $jawabannya->pertanyaan;
+                $jawaban    = $jawabannya->jawaban;
+
+                // pastikan array pertanyaan sudah ada
+                $indikator[$pertanyaan] = $indikator[$pertanyaan] ?? [
+                    'A' => 0,
+                    'B' => 0,
+                    'C' => 0,
+                    'D' => 0,
+                ];
+
+                $nilai = [
+                    'A' => 4,
+                    'B' => 3,
+                    'C' => 2,
+                    'D' => 1,
+                ];
+
+                if (isset($nilai[$jawaban])) {
+                    $indikator[$pertanyaan][$jawaban]++;
+                    $skor += $nilai[$jawaban];
                 }
+                // if($jawabannya->jawaban == 'A'){
+                //     $indikator[$jawabannya->pertanyaan]['A'] += 1;
+                //     $skor += 4;
+                // }elseif($jawabannya->jawaban == 'B'){
+                //     $indikator[$jawabannya->pertanyaan]['B'] += 1;
+                //     $skor += 3;
+                // }elseif($jawabannya->jawaban == 'C'){
+                //     $indikator[$jawabannya->pertanyaan]['C'] += 1;
+                //     $skor += 2;
+                // }elseif($jawabannya->jawaban == 'D'){
+                //     $indikator[$jawabannya->pertanyaan]['D'] += 1;
+                //     $skor += 1;
+                // }
                 array_push($hasil_jawaban, $jawabannya->jawaban);
             }
             if(count($hasil_jawaban) !== $status_pertanyaan){
